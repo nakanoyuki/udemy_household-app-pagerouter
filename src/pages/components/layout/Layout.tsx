@@ -60,7 +60,7 @@ export default function Layout({ children }: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            家計簿
           </Typography>
         </Toolbar>
       </AppBar>
