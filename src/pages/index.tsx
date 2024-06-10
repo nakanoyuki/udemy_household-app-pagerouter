@@ -1,7 +1,10 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-// import styles from "@/styles/Home.module.css";
-// import Link from "next/link";
+import { Box } from "@mui/material";
+import Calendar from "./components/Calendar";
+import MonthlySummary from "./components/MonthlySummary";
+import TransactionMenu from "./components/TransactionMenu";
+import TransactionForm from "./components/TransactionForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +18,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          Home
-          {/* <Link href="/">home</Link>
-          <Link href="/report">report</Link> */}
-        </div>
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <MonthlySummary />
+            <Calendar />
+          </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <TransactionMenu />
+            <TransactionForm />
+          </Box>
+        </Box>
       </main>
     </>
   );
