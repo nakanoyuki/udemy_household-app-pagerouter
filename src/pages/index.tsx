@@ -5,42 +5,10 @@ import Calendar from "./components/Calendar";
 import MonthlySummary from "./components/MonthlySummary";
 import TransactionMenu from "./components/TransactionMenu";
 import TransactionForm from "./components/TransactionForm";
-import { useEffect, useState } from "react";
-import { Transaction } from "@/type";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase";
-import { format } from "date-fns";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "Transaction"));
-
-        const transactiosData = querySnapshot.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            id: doc.id,
-          } as Transaction;
-        });
-
-        setTransactions(transactiosData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchTransactions();
-  }, []);
-
-  const monthlyTransactions = transactions.filter((transaction) => {
-    return transaction.date.startsWith(format(currentMonth, "yyyy-MM"));
-  });
-
   return (
     <>
       <Head>
@@ -52,7 +20,7 @@ export default function Home() {
       <main>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flexGrow: 1 }}>
-            <MonthlySummary monthlyTransactions={monthlyTransactions} />
+            <MonthlySummary />
             <Calendar />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
