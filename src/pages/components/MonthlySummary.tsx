@@ -1,14 +1,32 @@
 import { Card, CardContent, Grid, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Transaction } from "@/type";
 import { financeCalculation } from "@/utils/financeCalculation";
+import { filterTransactionsByMonth } from "@/utils/filterTransactionsByMonth";
+import { fetchTransactions } from "@/utils/fetchTransactions";
 
-interface Props {
-  monthlyTransactions: Transaction[];
-}
+const MonthlySummary = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
-const MonthlySummary = ({ monthlyTransactions }: Props) => {
+  useEffect(() => {
+    const loadTransactions = async () => {
+      try {
+        const transactionsData = await fetchTransactions();
+        setTransactions(transactionsData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadTransactions();
+  }, []);
+
+  const monthlyTransactions = filterTransactionsByMonth(
+    transactions,
+    currentMonth
+  );
+
   const { income, expense, balance } = financeCalculation(monthlyTransactions);
   return (
     <Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
