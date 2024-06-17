@@ -1,8 +1,15 @@
 import { Card, CardContent, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Transaction } from "@/type";
+import { financeCalculation } from "@/utils/financeCalculation";
 
-const MonthlySummary = () => {
+interface Props {
+  monthlyTransactions: Transaction[];
+}
+
+const MonthlySummary = ({ monthlyTransactions }: Props) => {
+  const { income, expense, balance } = financeCalculation(monthlyTransactions);
   return (
     <Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
       <Grid item xs={4} display={"flex"} flexDirection={"column"}>
@@ -28,7 +35,7 @@ const MonthlySummary = () => {
                 fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
               }}
             >
-              ￥300
+              ￥{income}
             </Typography>
           </CardContent>
         </Card>
@@ -56,7 +63,7 @@ const MonthlySummary = () => {
                 fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
               }}
             >
-              ￥300
+              ￥{expense}
             </Typography>
           </CardContent>
         </Card>
@@ -84,7 +91,7 @@ const MonthlySummary = () => {
                 fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
               }}
             >
-              ￥300
+              ￥{balance}
             </Typography>
           </CardContent>
         </Card>
