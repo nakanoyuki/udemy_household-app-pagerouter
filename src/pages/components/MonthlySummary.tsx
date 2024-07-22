@@ -1,15 +1,22 @@
 import { Card, CardContent, Grid, Stack, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { Transaction } from "@/type";
 import { financeCalculation } from "@/utils/financeCalculation";
 import { filterTransactionsByMonth } from "@/utils/filterTransactionsByMonth";
 import { fetchTransactions } from "@/utils/fetchTransactions";
 
-const MonthlySummary = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+interface Props {
+  transactions: Transaction[];
+  setTransactions: Dispatch<SetStateAction<Transaction[]>>;
+  currentMonth: Date;
+}
 
+const MonthlySummary = ({
+  transactions,
+  setTransactions,
+  currentMonth,
+}: Props) => {
   useEffect(() => {
     const loadTransactions = async () => {
       try {
