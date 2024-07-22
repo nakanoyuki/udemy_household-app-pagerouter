@@ -22,3 +22,10 @@ export interface Balance {
   expense: number;
   balance: number;
 }
+
+export interface CalenderContent {
+  start: string;
+  income: number;
+  expense: number;
+  balance: number;
+}
