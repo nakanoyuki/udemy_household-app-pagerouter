@@ -5,10 +5,15 @@ import Calendar from "./components/Calendar";
 import MonthlySummary from "./components/MonthlySummary";
 import TransactionMenu from "./components/TransactionMenu";
 import TransactionForm from "./components/TransactionForm";
+import { useState } from "react";
+import { Transaction } from "@/type";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
   return (
     <>
       <Head>
@@ -20,8 +25,16 @@ export default function Home() {
       <main>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flexGrow: 1 }}>
-            <MonthlySummary />
-            <Calendar />
+            <MonthlySummary
+              transactions={transactions}
+              setTransactions={setTransactions}
+              currentMonth={currentMonth}
+            />
+            <Calendar
+              transactions={transactions}
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+            />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <TransactionMenu />
