@@ -14,11 +14,28 @@ import {
 import React from "react";
 import NotesIcon from "@mui/icons-material/Notes";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DailySummary from "./DailySummary";
+import { format } from "date-fns";
+import { Transaction } from "@/type";
+import DailyTransactionList from "./DailyTransactionList";
 
-const TransactionMenu = () => {
+interface Props {
+  transactions: Transaction[];
+  currentMonth: Date;
+  currentDay: string;
+}
+
+const TransactionMenu = ({ transactions, currentMonth, currentDay }: Props) => {
+  const monthlyTransactions = transactions.filter((transaction) =>
+    transaction.date.startsWith(format(currentMonth, "yyyy-MM"))
+  );
+
+  const dailyTransactions = monthlyTransactions.filter((transaction) => {
+    return transaction.date === currentDay;
+  });
+
   const menuDrawerWidth = 320;
+
   return (
     <Drawer
       sx={{
@@ -35,8 +52,10 @@ const TransactionMenu = () => {
       anchor={"right"}
     >
       <Stack sx={{ height: "100%" }} spacing={2}>
-        <Typography fontWeight={"fontWeightBold"}>日時： 2023-12-31</Typography>
-        <DailySummary />
+        <Typography fontWeight={"fontWeightBold"}>
+          日時： {currentDay}
+        </Typography>
+        <DailySummary dailyTransactions={dailyTransactions}/>
         <Box
           sx={{
             display: "flex",
@@ -45,12 +64,10 @@ const TransactionMenu = () => {
             p: 1,
           }}
         >
-          {/* 左側のメモアイコンとテキスト */}
           <Box display="flex" alignItems="center">
             <NotesIcon sx={{ mr: 1 }} />
             <Typography variant="body1">内訳</Typography>
           </Box>
-          {/* 右側の追加ボタン */}
           <Button startIcon={<AddCircleIcon />} color="primary">
             内訳を追加
           </Button>
@@ -58,57 +75,12 @@ const TransactionMenu = () => {
         <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
           <List aria-label="取引履歴">
             <Stack spacing={2}>
-              <ListItem disablePadding>
-                <Card
-                  sx={{
-                    width: "100%",
-                    backgroundColor: (theme) =>
-                      theme.palette.expenseColor.light,
-                  }}
-                >
-                  <CardActionArea>
-                    <CardContent>
-                      <Grid
-                        container
-                        spacing={1}
-                        alignItems="center"
-                        wrap="wrap"
-                      >
-                        <Grid item xs={1}>
-                          {/* icon */}
-                          <FastfoodIcon />
-                        </Grid>
-                        <Grid item xs={2.5}>
-                          <Typography
-                            variant="caption"
-                            display="block"
-                            gutterBottom
-                          >
-                            食費
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2" gutterBottom>
-                            卵
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4.5}>
-                          <Typography
-                            gutterBottom
-                            textAlign={"right"}
-                            color="text.secondary"
-                            sx={{
-                              wordBreak: "break-all",
-                            }}
-                          >
-                            ¥300
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </ListItem>
+              {dailyTransactions.map((transaction) => (
+                <DailyTransactionList
+                  transaction={transaction}
+                  key={transaction.id}
+                />
+              ))}
             </Stack>
           </List>
         </Box>
