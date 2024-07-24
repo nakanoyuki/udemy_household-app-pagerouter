@@ -7,12 +7,16 @@ import TransactionMenu from "./components/TransactionMenu";
 import TransactionForm from "./components/TransactionForm";
 import { useState } from "react";
 import { Transaction } from "@/type";
+import { format } from "date-fns";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const today = format(new Date(), "yyyy-MM-dd");
+  const [currentDay, setCurrentDay] = useState(today);
 
   return (
     <>
@@ -34,10 +38,15 @@ export default function Home() {
               transactions={transactions}
               currentMonth={currentMonth}
               setCurrentMonth={setCurrentMonth}
+              setCurrentDay={setCurrentDay}
             />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <TransactionMenu />
+            <TransactionMenu
+              transactions={transactions}
+              currentMonth={currentMonth}
+              currentDay={currentDay}
+            />
             <TransactionForm />
           </Box>
         </Box>
