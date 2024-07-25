@@ -7,8 +7,8 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { Transaction } from "@/type";
+import Icon from "./common/Icon";
 
 interface Props {
   transaction: Transaction;
@@ -20,15 +20,17 @@ const DailyTransactionList = ({ transaction }: Props) => {
       <Card
         sx={{
           width: "100%",
-          backgroundColor: (theme) => theme.palette.expenseColor.light,
+          backgroundColor:
+            transaction.type === "income"
+              ? (theme) => theme.palette.incomeColor.light
+              : (theme) => theme.palette.expenseColor.light,
         }}
       >
         <CardActionArea>
           <CardContent>
             <Grid container spacing={1} alignItems="center" wrap="wrap">
               <Grid item xs={1}>
-                {/* icon */}
-                <FastfoodIcon />
+                {Icon[transaction.category]}
               </Grid>
               <Grid item xs={2.5}>
                 <Typography variant="caption" display="block" gutterBottom>
