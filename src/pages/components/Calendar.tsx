@@ -6,11 +6,12 @@ import { DatesSetArg, EventChangeArg } from "@fullcalendar/core";
 import styles from "../../Calendar.module.scss";
 import { calculateDailyBalances } from "@/utils/financeCalculation";
 import { Balance, CalenderContent, Transaction } from "@/type";
-import { format } from "date-fns";
+import { format, isSameMonth } from "date-fns";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
 
 interface Props {
+  today: string;
   transactions: Transaction[];
   currentMonth: Date;
   setCurrentMonth: Dispatch<SetStateAction<Date>>;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const Calendar = ({
+  today,
   transactions,
   currentMonth,
   setCurrentMonth,
@@ -55,7 +57,14 @@ const Calendar = ({
     backgroundColor: theme.palette.incomeColor.light,
   };
   const handleDateSet = (datesetInfo: DatesSetArg) => {
-    setCurrentMonth(datesetInfo.view.currentStart);
+    // 現在表示中の月の情報
+    const currentMonth = datesetInfo.view.currentStart;
+    setCurrentMonth(currentMonth);
+
+    const todayDate = new Date();
+    if (isSameMonth(todayDate, currentMonth)) {
+      setCurrentDay(today);
+    }
   };
 
   const handleDateClick = (dateInfo: DateClickArg) => {

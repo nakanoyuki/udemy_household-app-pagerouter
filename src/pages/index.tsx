@@ -35,6 +35,7 @@ export default function Home() {
               currentMonth={currentMonth}
             />
             <Calendar
+              today={today}
               transactions={transactions}
               currentMonth={currentMonth}
               setCurrentMonth={setCurrentMonth}
