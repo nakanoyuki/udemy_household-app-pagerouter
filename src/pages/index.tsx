@@ -38,6 +38,7 @@ export default function Home() {
               transactions={transactions}
               currentMonth={currentMonth}
               setCurrentMonth={setCurrentMonth}
+              currentDay={currentDay}
               setCurrentDay={setCurrentDay}
             />
           </Box>

@@ -8,11 +8,13 @@ import { calculateDailyBalances } from "@/utils/financeCalculation";
 import { Balance, CalenderContent, Transaction } from "@/type";
 import { format } from "date-fns";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import { useTheme } from "@mui/material";
 
 interface Props {
   transactions: Transaction[];
   currentMonth: Date;
   setCurrentMonth: Dispatch<SetStateAction<Date>>;
+  currentDay: string;
   setCurrentDay: Dispatch<SetStateAction<string>>;
 }
 
@@ -20,8 +22,10 @@ const Calendar = ({
   transactions,
   currentMonth,
   setCurrentMonth,
+  currentDay,
   setCurrentDay,
 }: Props) => {
+  const theme = useTheme();
   const monthlyTransactions = transactions.filter((transaction) =>
     transaction.date.startsWith(format(currentMonth, "yyyy-MM"))
   );
@@ -45,6 +49,11 @@ const Calendar = ({
 
   const calenderEvents = createCalenderEvents(dailyBalances);
 
+  const backgroundEvent = {
+    start: currentDay,
+    display: "background",
+    backgroundColor: theme.palette.incomeColor.light,
+  };
   const handleDateSet = (datesetInfo: DatesSetArg) => {
     setCurrentMonth(datesetInfo.view.currentStart);
   };
@@ -80,7 +89,7 @@ const Calendar = ({
       locale={jaLocale}
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
-      events={calenderEvents}
+      events={[...calenderEvents, backgroundEvent]}
       eventContent={renderEventCount}
       datesSet={handleDateSet}
       dateClick={handleDateClick}
