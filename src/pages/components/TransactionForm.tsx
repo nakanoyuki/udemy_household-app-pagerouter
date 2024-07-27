@@ -10,9 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
-import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
+import CloseIcon from "@mui/icons-material/Close";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import AlarmIcon from "@mui/icons-material/Alarm";
+import AddHomeIcon from "@mui/icons-material/AddHome";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import SportsTennisIcon from "@mui/icons-material/SportsTennis";
+import TrainIcon from "@mui/icons-material/Train";
+import WorkIcon from "@mui/icons-material/Work";
+import SavingsIcon from "@mui/icons-material/Savings";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { Controller, useForm } from "react-hook-form";
+import { ExpenseCategory, IncomeCategory } from "@/type";
 
 interface Props {
   closeModal: () => void;
@@ -20,8 +29,30 @@ interface Props {
   currentDay: string;
 }
 
+type IncomeExpenseType = "income" | "expense";
+interface CategoryItemType {
+  label: IncomeCategory | ExpenseCategory;
+  icon: React.JSX.Element;
+}
+
 const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
   const formWidth = 320;
+
+  const expenseCategories: CategoryItemType[] = [
+    { label: "食費", icon: <FastfoodIcon /> },
+    { label: "日用品", icon: <AlarmIcon /> },
+    { label: "住居費", icon: <AddHomeIcon /> },
+    { label: "交際費", icon: <Diversity3Icon /> },
+    { label: "娯楽", icon: <SportsTennisIcon /> },
+    { label: "交通費", icon: <TrainIcon /> },
+  ];
+
+  const incomeCategories: CategoryItemType[] = [
+    { label: "給与", icon: <WorkIcon /> },
+    { label: "副収入", icon: <AddBusinessIcon /> },
+    { label: "お小遣い", icon: <SavingsIcon /> },
+  ];
+
   const { control, setValue, watch } = useForm({
     defaultValues: {
       type: "expense",
@@ -31,8 +62,6 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
       content: "",
     },
   });
-
-  type IncomeExpenseType = "income" | "expense";
 
   const incomeExpenseToggle = (type: IncomeExpenseType) => {
     setValue("type", type);
