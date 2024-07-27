@@ -22,7 +22,7 @@ interface Props {
 
 const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
   const formWidth = 320;
-  const { control } = useForm({
+  const { control, setValue } = useForm({
     defaultValues: {
       type: "expense",
       date: currentDay,
@@ -31,6 +31,12 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
       content: "",
     },
   });
+
+  type IncomeExpenseType = "income" | "expense";
+
+  const incomeExpenseToggle = (type: IncomeExpenseType) => {
+    setValue("type", type);
+  };
 
   return (
     <Box
@@ -73,10 +79,23 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
             control={control}
             render={({ field }) => (
               <ButtonGroup fullWidth>
-                <Button variant={"contained"} color="error">
+                <Button
+                  variant={field.value === "expense" ? "contained" : "outlined"}
+                  color="error"
+                  onClick={() => {
+                    incomeExpenseToggle("expense");
+                  }}
+                >
                   支出
                 </Button>
-                <Button>収入</Button>
+                <Button
+                  variant={field.value === "income" ? "contained" : "outlined"}
+                  onClick={() => {
+                    incomeExpenseToggle("income");
+                  }}
+                >
+                  収入
+                </Button>
               </ButtonGroup>
             )}
           />
