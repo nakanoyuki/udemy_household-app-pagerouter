@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import AlarmIcon from "@mui/icons-material/Alarm";
@@ -53,6 +53,8 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
     { label: "お小遣い", icon: <SavingsIcon /> },
   ];
 
+  const [categories, setCategories] = useState(expenseCategories);
+
   const { control, setValue, watch } = useForm({
     defaultValues: {
       type: "expense",
@@ -72,6 +74,14 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
   }, [currentDay]);
 
   const currentType = watch("type");
+
+  useEffect(() => {
+    const newCategories =
+      currentType === "expense" ? expenseCategories : incomeCategories;
+    console.log(currentType);
+    setCategories(newCategories);
+  }, [currentType]);
+
   return (
     <Box
       sx={{
@@ -157,19 +167,13 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
             name="category"
             control={control}
             render={({ field }) => (
-              <TextField
-                {...field}
-                id="カテゴリ"
-                label="カテゴリ"
-                select
-                value={"食費"}
-              >
-                <MenuItem value={"食費"}>
-                  <ListItemIcon>
-                    <FastfoodIcon />
-                  </ListItemIcon>
-                  食費
-                </MenuItem>
+              <TextField {...field} id="カテゴリ" label="カテゴリ" select>
+                {categories.map((category) => (
+                  <MenuItem value={category.label} key={category.label}>
+                    <ListItemIcon>{category.icon}</ListItemIcon>
+                    {category.label}
+                  </MenuItem>
+                ))}
               </TextField>
             )}
           />
