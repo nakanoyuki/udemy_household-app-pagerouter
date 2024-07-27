@@ -63,6 +63,7 @@ export default function Home() {
             <TransactionForm
               closeModal={closeModal}
               isModalOpen={isModalOpen}
+              currentDay={currentDay}
             />
           </Box>
         </Box>
