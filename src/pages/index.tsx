@@ -18,6 +18,16 @@ export default function Home() {
   const today = format(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleAddTransactionForm = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <>
       <Head>
@@ -48,8 +58,12 @@ export default function Home() {
               transactions={transactions}
               currentMonth={currentMonth}
               currentDay={currentDay}
+              handleAddTransactionForm={handleAddTransactionForm}
             />
-            <TransactionForm />
+            <TransactionForm
+              closeModal={closeModal}
+              isModalOpen={isModalOpen}
+            />
           </Box>
         </Box>
       </main>

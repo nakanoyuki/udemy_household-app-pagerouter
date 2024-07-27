@@ -23,9 +23,15 @@ interface Props {
   transactions: Transaction[];
   currentMonth: Date;
   currentDay: string;
+  handleAddTransactionForm: () => void;
 }
 
-const TransactionMenu = ({ transactions, currentMonth, currentDay }: Props) => {
+const TransactionMenu = ({
+  transactions,
+  currentMonth,
+  currentDay,
+  handleAddTransactionForm,
+}: Props) => {
   const monthlyTransactions = transactions.filter((transaction) =>
     transaction.date.startsWith(format(currentMonth, "yyyy-MM"))
   );
@@ -55,7 +61,7 @@ const TransactionMenu = ({ transactions, currentMonth, currentDay }: Props) => {
         <Typography fontWeight={"fontWeightBold"}>
           日時： {currentDay}
         </Typography>
-        <DailySummary dailyTransactions={dailyTransactions}/>
+        <DailySummary dailyTransactions={dailyTransactions} />
         <Box
           sx={{
             display: "flex",
@@ -68,7 +74,11 @@ const TransactionMenu = ({ transactions, currentMonth, currentDay }: Props) => {
             <NotesIcon sx={{ mr: 1 }} />
             <Typography variant="body1">内訳</Typography>
           </Box>
-          <Button startIcon={<AddCircleIcon />} color="primary">
+          <Button
+            startIcon={<AddCircleIcon />}
+            color="primary"
+            onClick={handleAddTransactionForm}
+          >
             内訳を追加
           </Button>
         </Box>
