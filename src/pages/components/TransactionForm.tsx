@@ -184,7 +184,12 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
             name="amount"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="金額" type="number" />
+              <TextField
+                {...field}
+                value={field.value === 0 ? "" : field.value}
+                label="金額"
+                type="number"
+              />
             )}
           />
 
