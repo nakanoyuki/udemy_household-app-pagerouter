@@ -22,7 +22,8 @@ import SavingsIcon from "@mui/icons-material/Savings";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { Controller, useForm } from "react-hook-form";
 import { ExpenseCategory, IncomeCategory } from "@/type";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { transactionSchema } from "@/validations/schema";
 interface Props {
   closeModal: () => void;
   isModalOpen: boolean;
@@ -55,7 +56,13 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
 
   const [categories, setCategories] = useState(expenseCategories);
 
-  const { control, setValue, watch } = useForm({
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
     defaultValues: {
       type: "expense",
       date: currentDay,
@@ -63,6 +70,7 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
       category: "",
       content: "",
     },
+    resolver: zodResolver(transactionSchema),
   });
 
   const incomeExpenseToggle = (type: IncomeExpenseType) => {
@@ -82,6 +90,7 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
     setCategories(newCategories);
   }, [currentType]);
 
+  const onSubmit = (data: any) => {};
   return (
     <Box
       sx={{
@@ -116,7 +125,7 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
         </IconButton>
       </Box>
       {/* フォーム要素 */}
-      <Box component={"form"}>
+      <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Controller
             name="type"
