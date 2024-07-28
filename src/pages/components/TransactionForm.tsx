@@ -166,6 +166,8 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                error={!!errors.date}
+                helperText={errors.date?.message}
               />
             )}
           />
@@ -176,7 +178,14 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
             name="category"
             control={control}
             render={({ field }) => (
-              <TextField {...field} id="カテゴリ" label="カテゴリ" select>
+              <TextField
+                {...field}
+                id="カテゴリ"
+                label="カテゴリ"
+                select
+                error={!!errors.category}
+                helperText={errors.category?.message}
+              >
                 {categories.map((category) => (
                   <MenuItem value={category.label} key={category.label}>
                     <ListItemIcon>{category.icon}</ListItemIcon>
@@ -198,6 +207,8 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
                 value={field.value === 0 ? "" : field.value}
                 label="金額"
                 type="number"
+                error={!!errors.amount}
+                helperText={errors.amount?.message}
               />
             )}
           />
@@ -208,7 +219,13 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
             name="content"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="内容" type="text" />
+              <TextField
+                {...field}
+                label="内容"
+                type="text"
+                error={!!errors.content}
+                helperText={errors.content?.message}
+              />
             )}
           />
 
