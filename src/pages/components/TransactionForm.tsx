@@ -20,10 +20,10 @@ import TrainIcon from "@mui/icons-material/Train";
 import WorkIcon from "@mui/icons-material/Work";
 import SavingsIcon from "@mui/icons-material/Savings";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ExpenseCategory, IncomeCategory } from "@/type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { transactionSchema } from "@/validations/schema";
+import { Schema, transactionSchema } from "@/validations/schema";
 interface Props {
   closeModal: () => void;
   isModalOpen: boolean;
@@ -62,12 +62,12 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<Schema>({
     defaultValues: {
       type: "expense",
       date: currentDay,
       amount: 0,
-      category: "",
+      category: "食費",
       content: "",
     },
     resolver: zodResolver(transactionSchema),
@@ -79,18 +79,18 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
 
   useEffect(() => {
     setValue("date", currentDay);
-  }, [currentDay]);
+  }, [currentDay, setValue]);
 
   const currentType = watch("type");
+  const newCategories =
+    currentType === "expense" ? expenseCategories : incomeCategories;
 
   useEffect(() => {
-    const newCategories =
-      currentType === "expense" ? expenseCategories : incomeCategories;
-    console.log(currentType);
     setCategories(newCategories);
-  }, [currentType]);
+  }, [currentType, newCategories]);
 
-  const onSubmit = (data: any) => {};
+  const onSubmit: SubmitHandler<Schema> = (data) => {};
+
   return (
     <Box
       sx={{
