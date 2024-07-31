@@ -7,7 +7,7 @@ export const transactionSchema = z.object({
   content: z
     .string()
     .min(1, { message: "内容を入力してください。" })
-    .max(50, { message: "内容は50文字以上にしてください。" }),
+    .max(50, { message: "内容は50文字以内にしてください。" }),
   category: z
     .union([
       z.enum(["食費", "日用品", "住居費", "交際費", "娯楽", "交通費"]),
