@@ -24,6 +24,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { ExpenseCategory, IncomeCategory } from "@/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Schema, transactionSchema } from "@/validations/schema";
+import { handleSaveTransaction } from "@/utils/handleSaveTransaction";
+
 interface Props {
   closeModal: () => void;
   isModalOpen: boolean;
@@ -89,7 +91,9 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
     setCategories(newCategories);
   }, [currentType, newCategories]);
 
-  const onSubmit: SubmitHandler<Schema> = (data) => {};
+  const onSubmit: SubmitHandler<Schema> = (data) => {
+    handleSaveTransaction(data);
+  };
 
   return (
     <Box
