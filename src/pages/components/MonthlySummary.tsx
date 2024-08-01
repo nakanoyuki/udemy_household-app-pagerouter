@@ -5,6 +5,7 @@ import { Transaction } from "@/type";
 import { financeCalculation } from "@/utils/financeCalculation";
 import { filterTransactionsByMonth } from "@/utils/filterTransactionsByMonth";
 import { fetchTransactions } from "@/utils/fetchTransactions";
+import { formatAmount } from "@/utils/formatAmount";
 
 interface Props {
   transactions: Transaction[];
@@ -60,7 +61,7 @@ const MonthlySummary = ({
                 fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
               }}
             >
-              ￥{income}
+              ￥{formatAmount(income)}
             </Typography>
           </CardContent>
         </Card>

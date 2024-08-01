@@ -9,6 +9,7 @@ import { Balance, CalenderContent, Transaction } from "@/type";
 import { format, isSameMonth } from "date-fns";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
+import { formatAmount } from "@/utils/formatAmount";
 
 interface Props {
   today: string;
@@ -42,9 +43,9 @@ const Calendar = ({
 
       return {
         start: date,
-        income: income,
-        expense: expense,
-        balance: balance,
+        income: formatAmount(income),
+        expense: formatAmount(expense),
+        balance: formatAmount(balance),
       };
     });
   };
