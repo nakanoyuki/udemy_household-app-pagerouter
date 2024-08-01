@@ -209,6 +209,7 @@ const TransactionForm = ({ closeModal, isModalOpen, currentDay }: Props) => {
               <TextField
                 {...field}
                 value={field.value === 0 ? "" : field.value}
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 label="金額"
                 type="number"
                 error={!!errors.amount}
