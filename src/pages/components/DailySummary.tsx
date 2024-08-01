@@ -1,6 +1,5 @@
 import { Transaction } from "@/type";
 import { financeCalculation } from "@/utils/financeCalculation";
-import { formatAmount } from "@/utils/formatAmount";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 
@@ -27,7 +26,7 @@ const DailySummary = ({ dailyTransactions }: Props) => {
                 fontWeight="fontWeightBold"
                 sx={{ wordBreak: "break-all" }}
               >
-                ¥{formatAmount(income)}
+                ¥{income}
               </Typography>
             </CardContent>
           </Card>
