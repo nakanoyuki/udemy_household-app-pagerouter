@@ -5,5 +5,7 @@ import { addDoc, collection } from "firebase/firestore";
 export const handleSaveTransaction = async (transaction: Schema) => {
   try {
     const docRef = await addDoc(collection(db, "Transaction"), transaction);
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
